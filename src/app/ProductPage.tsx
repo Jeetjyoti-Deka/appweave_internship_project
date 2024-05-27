@@ -14,17 +14,21 @@ import {
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, getPaginatedProducts } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    setProducts(PRODUCTS);
-  }, []);
+    const paginatedProducts = getPaginatedProducts(page, PRODUCTS);
+    setProducts(paginatedProducts.products);
+    setTotalPages(paginatedProducts.totalPages);
+  }, [page]);
 
   return (
     <div className="mt-10 px-6">
@@ -38,11 +42,19 @@ const ProductPage = () => {
         <div>
           <ProductSection products={products} />
           <div className="flex items-center justify-center gap-x-3 mt-6">
-            <Button variant="ghost">
+            <Button
+              disabled={page === 1}
+              variant="ghost"
+              onClick={() => setPage((prev) => prev - 1)}
+            >
               <ChevronLeft className="w-4 h-4 mr-1.5" />
               Previous
             </Button>
-            <Button variant="ghost">
+            <Button
+              disabled={page === totalPages}
+              variant="ghost"
+              onClick={() => setPage((prev) => prev + 1)}
+            >
               Next
               <ChevronRight className="w-4 h-4 ml-1.5" />
             </Button>
@@ -143,14 +155,14 @@ const ProductCard = ({ product }: { product: Product }) => {
     <Card className="w-[320px] place-self-center">
       <CardHeader className="relative p-2 pb-6">
         <div className="w-full h-44 p-4 rounded-lg bg-gray-300 relative">
-          <CardTitle className="absolute top-2 left-2">
+          <CardTitle className="absolute top-2 left-2 z-20 bg-white/30 p-2 rounded-md">
             {product.name}
           </CardTitle>
           <Image
             src={product.img}
             alt={product.name}
             fill
-            className="object-contain w-full"
+            className="object-contain w-full z-0"
           />
         </div>
       </CardHeader>
