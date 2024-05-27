@@ -7,8 +7,8 @@ import { Product, PRODUCTS } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { formatPrice, getPaginatedProducts } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
+import { capitalize, formatPrice, getPaginatedProducts } from "@/lib/utils";
+import { ChevronLeft, ChevronRight, Loader2, Plus, Search } from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
@@ -62,10 +62,40 @@ const ProductPage = () => {
     setProducts(products);
   };
 
+  const applySearch = (searchText: string) => {
+    if (searchText === "") {
+      return;
+    }
+    let searchedProducts: Product[] = [];
+    let products = PRODUCTS;
+    searchedProducts.push(
+      ...products.filter((product) => product.name.includes(searchText))
+    );
+    const searchArr = searchText.split(" ").map((word) => word.toLowerCase());
+    searchArr.forEach((word) => {
+      let colorProducts = products.filter((product) => product.color === word);
+      let typeProducts = products.filter((product) => product.type === word);
+
+      colorProducts.forEach((product) => {
+        if (!searchedProducts.includes(product)) {
+          searchedProducts.push(product);
+        }
+      });
+
+      typeProducts.forEach((product) => {
+        if (!searchedProducts.includes(product)) {
+          searchedProducts.push(product);
+        }
+      });
+    });
+
+    setProducts(searchedProducts);
+  };
+
   return (
     <div className="mt-10 px-6">
       <div className="mb-6 flex items-center justify-center">
-        <SearchBar />
+        <SearchBar applySearch={applySearch} />
       </div>
       <div className="grid grid-cols-[20%,80%] gap-x-6">
         <div>
@@ -73,24 +103,26 @@ const ProductPage = () => {
         </div>
         <div>
           <ProductSection products={paginatedProducts} />
-          <div className="flex items-center justify-center gap-x-3 mt-6">
-            <Button
-              disabled={page === 1}
-              variant="ghost"
-              onClick={() => setPage((prev) => prev - 1)}
-            >
-              <ChevronLeft className="w-4 h-4 mr-1.5" />
-              Previous
-            </Button>
-            <Button
-              disabled={page === totalPages}
-              variant="ghost"
-              onClick={() => setPage((prev) => prev + 1)}
-            >
-              Next
-              <ChevronRight className="w-4 h-4 ml-1.5" />
-            </Button>
-          </div>
+          {paginatedProducts.length >= 1 && (
+            <div className="flex items-center justify-center gap-x-3 mt-6">
+              <Button
+                disabled={page === 1}
+                variant="ghost"
+                onClick={() => setPage((prev) => prev - 1)}
+              >
+                <ChevronLeft className="w-4 h-4 mr-1.5" />
+                Previous
+              </Button>
+              <Button
+                disabled={page === totalPages}
+                variant="ghost"
+                onClick={() => setPage((prev) => prev + 1)}
+              >
+                Next
+                <ChevronRight className="w-4 h-4 ml-1.5" />
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -219,6 +251,31 @@ const Filters = ({
 };
 
 const ProductSection = ({ products }: { products: Product[] }) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
+
+  if (products.length === 0) {
+    return (
+      <div className="min-h-[520px] w-full flex flex-col gap-y-2 items-center justify-center">
+        {loading ? (
+          <Loader2 className="w-6 h-6 animate-spin" />
+        ) : (
+          <>
+            <h3 className="font-semibold text-xl">No Items Found.</h3>
+            <p className="font-medium text-gray-400">
+              Please try to find some other item.
+            </p>
+          </>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-3 px-8 gap-y-4">
       {products.map((product, index) => (
@@ -234,7 +291,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       <CardHeader className="relative p-2 pb-6">
         <div className="w-full h-44 p-4 rounded-lg bg-gray-300 relative">
           <CardTitle className="absolute top-2 left-2 z-20 bg-white/30 p-2 rounded-md">
-            {product.name}
+            {capitalize(product.name)}
           </CardTitle>
           <Image
             src={product.img}
@@ -255,15 +312,28 @@ const ProductCard = ({ product }: { product: Product }) => {
   );
 };
 
-const SearchBar = () => {
+const SearchBar = ({
+  applySearch,
+}: {
+  applySearch: (searchText: string) => void;
+}) => {
+  const [searchText, setSearchText] = useState("");
+
   return (
     <div className="w-[37%] -mr-64 flex items-center gap-x-2">
       <Input
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
         type="text"
         placeholder="Search here..."
         className="focus-visible:ring-0 focus-visible:ring-white focus-visible:ring-offset-0"
       />
-      <Button>
+      <Button
+        onClick={() => {
+          applySearch(searchText);
+          setSearchText("");
+        }}
+      >
         <Search className="w-4 h-4" />
       </Button>
     </div>

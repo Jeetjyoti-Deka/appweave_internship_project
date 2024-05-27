@@ -25,6 +25,15 @@ export const getPaginatedProducts = (
 
   return {
     products: products.slice(start, end),
-    totalPages: Math.ceil(products.length / limit),
+    totalPages: Math.ceil(products.length / limit)
+      ? Math.ceil(products.length / limit)
+      : 1,
   };
+};
+
+export const capitalize = (text: string) => {
+  return text
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 };

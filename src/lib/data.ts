@@ -9,7 +9,7 @@ export type Product = {
 
 export const PRODUCTS: Product[] = [
   {
-    name: "Black Hoodie",
+    name: "black hoodie",
     color: "black",
     type: "hoodie",
     price: 450,
@@ -17,7 +17,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
-    name: "Pink Polo",
+    name: "pink polo",
     color: "pink",
     type: "polo",
     price: 230,
@@ -25,7 +25,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
-    name: "Blue Basic Tee",
+    name: "blue basic tee",
     color: "blue",
     type: "basic",
     price: 300,
@@ -33,7 +33,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
-    name: "Green Hoodie",
+    name: "green hoodie",
     color: "green",
     type: "hoodie",
     price: 500,
@@ -41,7 +41,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
-    name: "Red Basic Tee",
+    name: "red basic tee",
     color: "red",
     type: "basic",
     price: 250,
@@ -49,7 +49,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
-    name: "Black Polo",
+    name: "black polo",
     color: "black",
     type: "polo",
     price: 320,
@@ -57,7 +57,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
-    name: "Pink Hoodie",
+    name: "pink hoodie",
     color: "pink",
     type: "hoodie",
     price: 380,
@@ -65,7 +65,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
-    name: "Green Basic Tee",
+    name: "green basic tee",
     color: "green",
     type: "basic",
     price: 220,
@@ -73,7 +73,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
-    name: "Blue Polo",
+    name: "blue polo",
     color: "blue",
     type: "polo",
     price: 260,
@@ -81,7 +81,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
-    name: "Red Hoodie",
+    name: "red hoodie",
     color: "red",
     type: "hoodie",
     price: 400,
@@ -89,7 +89,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
-    name: "Black Basic Tee",
+    name: "black basic tee",
     color: "black",
     type: "basic",
     price: 210,
@@ -97,7 +97,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
-    name: "Pink Basic Tee",
+    name: "pink basic tee",
     color: "pink",
     type: "basic",
     price: 270,
@@ -105,7 +105,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
-    name: "Blue Hoodie",
+    name: "blue hoodie",
     color: "blue",
     type: "hoodie",
     price: 480,
@@ -113,7 +113,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
-    name: "Green Polo",
+    name: "green polo",
     color: "green",
     type: "polo",
     price: 310,
@@ -121,7 +121,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
-    name: "Red Basic Tee",
+    name: "red basic tee",
     color: "red",
     type: "basic",
     price: 240,
@@ -129,7 +129,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
-    name: "Black Hoodie",
+    name: "black hoodie",
     color: "black",
     type: "hoodie",
     price: 390,
@@ -137,7 +137,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
-    name: "Pink Polo",
+    name: "pink polo",
     color: "pink",
     type: "polo",
     price: 210,
@@ -145,7 +145,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
-    name: "Blue Basic Tee",
+    name: "blue basic tee",
     color: "blue",
     type: "basic",
     price: 260,
@@ -153,7 +153,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
-    name: "Green Hoodie",
+    name: "green hoodie",
     color: "green",
     type: "hoodie",
     price: 520,
@@ -161,7 +161,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
-    name: "Red Polo",
+    name: "red polo",
     color: "red",
     type: "polo",
     price: 290,
@@ -169,7 +169,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
-    name: "Black Basic Tee",
+    name: "black basic tee",
     color: "black",
     type: "basic",
     price: 280,
@@ -177,7 +177,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
-    name: "Pink Hoodie",
+    name: "pink hoodie",
     color: "pink",
     type: "hoodie",
     price: 370,
@@ -185,7 +185,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
-    name: "Blue Polo",
+    name: "blue polo",
     color: "blue",
     type: "polo",
     price: 250,
@@ -193,7 +193,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
-    name: "Green Basic Tee",
+    name: "green basic tee",
     color: "green",
     type: "basic",
     price: 290,
@@ -201,7 +201,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
-    name: "Red Hoodie",
+    name: "red hoodie",
     color: "red",
     type: "hoodie",
     price: 450,
@@ -209,7 +209,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
-    name: "Black Polo",
+    name: "black polo",
     color: "black",
     type: "polo",
     price: 230,
@@ -217,7 +217,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
-    name: "Pink Basic Tee",
+    name: "pink basic tee",
     color: "pink",
     type: "basic",
     price: 300,
@@ -225,7 +225,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
-    name: "Blue Hoodie",
+    name: "blue hoodie",
     color: "blue",
     type: "hoodie",
     price: 420,
@@ -233,7 +233,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
-    name: "Green Polo",
+    name: "green polo",
     color: "green",
     type: "polo",
     price: 270,
@@ -241,7 +241,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
-    name: "Red Basic Tee",
+    name: "red basic tee",
     color: "red",
     type: "basic",
     price: 310,
