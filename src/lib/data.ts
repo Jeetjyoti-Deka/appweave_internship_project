@@ -1,4 +1,5 @@
 export type Product = {
+  id: string;
   name: string;
   color: string;
   price: number;
@@ -9,6 +10,7 @@ export type Product = {
 
 export const PRODUCTS: Product[] = [
   {
+    id: "1",
     name: "black hoodie",
     color: "black",
     type: "hoodie",
@@ -17,6 +19,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
+    id: "2",
     name: "pink polo",
     color: "pink",
     type: "polo",
@@ -25,6 +28,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
+    id: "3",
     name: "blue basic tee",
     color: "blue",
     type: "basic",
@@ -33,6 +37,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
+    id: "4",
     name: "green hoodie",
     color: "green",
     type: "hoodie",
@@ -41,6 +46,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
+    id: "5",
     name: "red basic tee",
     color: "red",
     type: "basic",
@@ -49,6 +55,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
+    id: "6",
     name: "black polo",
     color: "black",
     type: "polo",
@@ -57,6 +64,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
+    id: "7",
     name: "pink hoodie",
     color: "pink",
     type: "hoodie",
@@ -65,6 +73,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
+    id: "8",
     name: "green basic tee",
     color: "green",
     type: "basic",
@@ -73,6 +82,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
+    id: "9",
     name: "blue polo",
     color: "blue",
     type: "polo",
@@ -81,6 +91,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
+    id: "10",
     name: "red hoodie",
     color: "red",
     type: "hoodie",
@@ -89,6 +100,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
+    id: "11",
     name: "black basic tee",
     color: "black",
     type: "basic",
@@ -97,6 +109,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
+    id: "12",
     name: "pink basic tee",
     color: "pink",
     type: "basic",
@@ -105,6 +118,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
+    id: "13",
     name: "blue hoodie",
     color: "blue",
     type: "hoodie",
@@ -113,6 +127,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
+    id: "14",
     name: "green polo",
     color: "green",
     type: "polo",
@@ -121,6 +136,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
+    id: "15",
     name: "red basic tee",
     color: "red",
     type: "basic",
@@ -129,6 +145,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
+    id: "16",
     name: "black hoodie",
     color: "black",
     type: "hoodie",
@@ -137,6 +154,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
+    id: "17",
     name: "pink polo",
     color: "pink",
     type: "polo",
@@ -145,6 +163,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
+    id: "18",
     name: "blue basic tee",
     color: "blue",
     type: "basic",
@@ -153,6 +172,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
+    id: "19",
     name: "green hoodie",
     color: "green",
     type: "hoodie",
@@ -161,6 +181,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
+    id: "20",
     name: "red polo",
     color: "red",
     type: "polo",
@@ -169,6 +190,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
+    id: "21",
     name: "black basic tee",
     color: "black",
     type: "basic",
@@ -177,6 +199,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
+    id: "22",
     name: "pink hoodie",
     color: "pink",
     type: "hoodie",
@@ -185,6 +208,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
+    id: "23",
     name: "blue polo",
     color: "blue",
     type: "polo",
@@ -193,6 +217,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
+    id: "24",
     name: "green basic tee",
     color: "green",
     type: "basic",
@@ -201,6 +226,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
+    id: "25",
     name: "red hoodie",
     color: "red",
     type: "hoodie",
@@ -209,6 +235,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
+    id: "26",
     name: "black polo",
     color: "black",
     type: "polo",
@@ -217,6 +244,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
+    id: "27",
     name: "pink basic tee",
     color: "pink",
     type: "basic",
@@ -225,6 +253,7 @@ export const PRODUCTS: Product[] = [
     img: "products/green.svg",
   },
   {
+    id: "28",
     name: "blue hoodie",
     color: "blue",
     type: "hoodie",
@@ -233,6 +262,7 @@ export const PRODUCTS: Product[] = [
     img: "products/blue.svg",
   },
   {
+    id: "29",
     name: "green polo",
     color: "green",
     type: "polo",
@@ -241,6 +271,7 @@ export const PRODUCTS: Product[] = [
     img: "products/red.svg",
   },
   {
+    id: "30",
     name: "red basic tee",
     color: "red",
     type: "basic",

@@ -11,6 +11,8 @@ import { capitalize, formatPrice, getPaginatedProducts } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, Loader2, Plus, Search } from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useAppDispatch } from "@/redux/hooks";
+import { addItem } from "@/redux/slice/cartSlice";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
@@ -286,6 +288,7 @@ const ProductSection = ({ products }: { products: Product[] }) => {
 };
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const dispatch = useAppDispatch();
   return (
     <Card className="w-[320px] place-self-center">
       <CardHeader className="relative p-2 pb-6">
@@ -303,7 +306,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       </CardHeader>
       <CardContent className="flex items-center justify-between">
         <p className="font-medium">{formatPrice(product.price)}</p>
-        <Button variant="outline">
+        <Button variant="outline" onClick={() => dispatch(addItem(product))}>
           Add to cart
           <Plus className="w-4 h-4 ml-1.5" />
         </Button>
