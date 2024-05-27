@@ -4,31 +4,63 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Product, PRODUCTS } from "@/lib/data";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { formatPrice, getPaginatedProducts } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { formatPrice, getPaginatedProducts } from "@/lib/utils";
+import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
+import Image from "next/image";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const ProductPage = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(PRODUCTS);
+  const [paginatedProducts, setPaginatedProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    const paginatedProducts = getPaginatedProducts(page, PRODUCTS);
-    setProducts(paginatedProducts.products);
+    setPage(1);
+  }, [products]);
+
+  useEffect(() => {
+    const paginatedProducts = getPaginatedProducts(page, products);
+    setPaginatedProducts(paginatedProducts.products);
     setTotalPages(paginatedProducts.totalPages);
-  }, [page]);
+  }, [page, products]);
+
+  const applyFilters = (
+    color: string,
+    type: string,
+    gender: string,
+    price: string
+  ) => {
+    let products = PRODUCTS;
+    if (color !== "") {
+      products = products.filter((product) => product.color === color);
+    }
+
+    if (type !== "") {
+      products = products.filter((product) => product.type === type);
+    }
+
+    if (gender !== "") {
+      products = products.filter((product) => product.gender === gender);
+    }
+
+    if (price !== "") {
+      if (price === "0-250") {
+        products = products.filter((product) => product.price <= 250);
+      } else if (price === "251-450") {
+        products = products.filter(
+          (product) => product.price > 250 && product.price <= 450
+        );
+      } else if (price === "above") {
+        products = products.filter((product) => product.price > 450);
+      }
+    }
+
+    setProducts(products);
+  };
 
   return (
     <div className="mt-10 px-6">
@@ -37,10 +69,10 @@ const ProductPage = () => {
       </div>
       <div className="grid grid-cols-[20%,80%] gap-x-6">
         <div>
-          <Filters />
+          <Filters applyFilters={applyFilters} setProducts={setProducts} />
         </div>
         <div>
-          <ProductSection products={products} />
+          <ProductSection products={paginatedProducts} />
           <div className="flex items-center justify-center gap-x-3 mt-6">
             <Button
               disabled={page === 1}
@@ -65,13 +97,32 @@ const ProductPage = () => {
   );
 };
 
-const Filters = () => {
+const Filters = ({
+  applyFilters,
+  setProducts,
+}: {
+  applyFilters: (
+    color: string,
+    type: string,
+    gender: string,
+    price: string
+  ) => void;
+  setProducts: Dispatch<SetStateAction<Product[]>>;
+}) => {
+  const [color, setColor] = useState<"red" | "green" | "blue" | "">("");
+  const [gender, setGender] = useState<"male" | "female" | "">("");
+  const [type, setType] = useState<"basic" | "hoodie" | "polo" | "">("");
+  const [price, setPrice] = useState<"0-250" | "251-450" | "above" | "">("");
+
   return (
     <div className="bg-white shadow-xl rounded-sm border border-zinc-200 p-5">
       <div className="flex flex-col gap-y-3">
         <div className="flex flex-col gap-y-2">
           <h3 className="font-semibold text-lg">Color</h3>
-          <RadioGroup>
+          <RadioGroup
+            value={color}
+            onValueChange={(v: "red" | "green" | "blue") => setColor(v)}
+          >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="red" id="red" />
               <Label htmlFor="red">Red</Label>
@@ -89,7 +140,10 @@ const Filters = () => {
 
         <div className="flex flex-col gap-y-2">
           <h3 className="font-semibold text-lg">Gender</h3>
-          <RadioGroup>
+          <RadioGroup
+            value={gender}
+            onValueChange={(v: "male" | "female") => setGender(v)}
+          >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="male" id="male" />
               <Label htmlFor="male">Male</Label>
@@ -103,24 +157,30 @@ const Filters = () => {
 
         <div className="flex flex-col gap-y-2">
           <h3 className="font-semibold text-lg">Price</h3>
-          <RadioGroup>
+          <RadioGroup
+            value={price}
+            onValueChange={(v: "0-250" | "251-450" | "above") => setPrice(v)}
+          >
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="male" id="male" />
-              <Label htmlFor="male">0-250</Label>
+              <RadioGroupItem value="0-250" id="0-250" />
+              <Label htmlFor="0-250">0-250</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="female" id="female" />
-              <Label htmlFor="female">251-450</Label>
+              <RadioGroupItem value="251-450" id="251-450" />
+              <Label htmlFor="251-450">251-450</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="female" id="female" />
-              <Label htmlFor="female">Above 450</Label>
+              <RadioGroupItem value="above" id="above" />
+              <Label htmlFor="above">Above 450</Label>
             </div>
           </RadioGroup>
         </div>
         <div className="flex flex-col gap-y-2">
           <h3 className="font-semibold text-lg">Type</h3>
-          <RadioGroup>
+          <RadioGroup
+            value={type}
+            onValueChange={(v: "basic" | "hoodie" | "polo") => setType(v)}
+          >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="polo" id="polo" />
               <Label htmlFor="polo">Polo</Label>
@@ -134,6 +194,24 @@ const Filters = () => {
               <Label htmlFor="basic">Basic</Label>
             </div>
           </RadioGroup>
+        </div>
+
+        <div className="flex items-center justify-between mt-4">
+          <Button onClick={() => applyFilters(color, type, gender, price)}>
+            Apply Filters
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setColor("");
+              setGender("");
+              setPrice("");
+              setType("");
+              setProducts(PRODUCTS);
+            }}
+          >
+            Clear Filters
+          </Button>
         </div>
       </div>
     </div>
