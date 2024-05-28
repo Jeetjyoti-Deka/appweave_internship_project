@@ -6,6 +6,8 @@ export type Product = {
   gender: "male" | "female";
   type: "hoodie" | "polo" | "basic";
   img: string;
+  availableStock: number;
+  quantity: number;
 };
 
 export const PRODUCTS: Product[] = [
@@ -17,6 +19,8 @@ export const PRODUCTS: Product[] = [
     price: 450,
     gender: "male",
     img: "products/blue.svg",
+    availableStock: 35,
+    quantity: 1,
   },
   {
     id: "2",
@@ -26,6 +30,8 @@ export const PRODUCTS: Product[] = [
     price: 230,
     gender: "female",
     img: "products/red.svg",
+    availableStock: 32,
+    quantity: 1,
   },
   {
     id: "3",
@@ -35,6 +41,8 @@ export const PRODUCTS: Product[] = [
     price: 300,
     gender: "male",
     img: "products/green.svg",
+    availableStock: 45,
+    quantity: 1,
   },
   {
     id: "4",
@@ -44,6 +52,8 @@ export const PRODUCTS: Product[] = [
     price: 500,
     gender: "female",
     img: "products/blue.svg",
+    availableStock: 60,
+    quantity: 1,
   },
   {
     id: "5",
@@ -53,6 +63,8 @@ export const PRODUCTS: Product[] = [
     price: 250,
     gender: "male",
     img: "products/red.svg",
+    availableStock: 23,
+    quantity: 1,
   },
   {
     id: "6",
@@ -62,6 +74,8 @@ export const PRODUCTS: Product[] = [
     price: 320,
     gender: "female",
     img: "products/green.svg",
+    availableStock: 20,
+    quantity: 1,
   },
   {
     id: "7",
@@ -71,6 +85,8 @@ export const PRODUCTS: Product[] = [
     price: 380,
     gender: "male",
     img: "products/blue.svg",
+    availableStock: 26,
+    quantity: 1,
   },
   {
     id: "8",
@@ -80,6 +96,8 @@ export const PRODUCTS: Product[] = [
     price: 220,
     gender: "female",
     img: "products/red.svg",
+    availableStock: 10,
+    quantity: 1,
   },
   {
     id: "9",
@@ -89,6 +107,8 @@ export const PRODUCTS: Product[] = [
     price: 260,
     gender: "male",
     img: "products/green.svg",
+    availableStock: 15,
+    quantity: 1,
   },
   {
     id: "10",
@@ -98,6 +118,8 @@ export const PRODUCTS: Product[] = [
     price: 400,
     gender: "female",
     img: "products/blue.svg",
+    availableStock: 36,
+    quantity: 1,
   },
   {
     id: "11",
@@ -107,6 +129,8 @@ export const PRODUCTS: Product[] = [
     price: 210,
     gender: "male",
     img: "products/red.svg",
+    availableStock: 27,
+    quantity: 1,
   },
   {
     id: "12",
@@ -116,6 +140,8 @@ export const PRODUCTS: Product[] = [
     price: 270,
     gender: "female",
     img: "products/green.svg",
+    availableStock: 32,
+    quantity: 1,
   },
   {
     id: "13",
@@ -125,6 +151,8 @@ export const PRODUCTS: Product[] = [
     price: 480,
     gender: "male",
     img: "products/blue.svg",
+    availableStock: 22,
+    quantity: 1,
   },
   {
     id: "14",
@@ -134,6 +162,8 @@ export const PRODUCTS: Product[] = [
     price: 310,
     gender: "female",
     img: "products/red.svg",
+    availableStock: 19,
+    quantity: 1,
   },
   {
     id: "15",
@@ -143,6 +173,8 @@ export const PRODUCTS: Product[] = [
     price: 240,
     gender: "male",
     img: "products/green.svg",
+    availableStock: 17,
+    quantity: 1,
   },
   {
     id: "16",
@@ -152,6 +184,8 @@ export const PRODUCTS: Product[] = [
     price: 390,
     gender: "female",
     img: "products/blue.svg",
+    availableStock: 11,
+    quantity: 1,
   },
   {
     id: "17",
@@ -161,6 +195,8 @@ export const PRODUCTS: Product[] = [
     price: 210,
     gender: "male",
     img: "products/red.svg",
+    availableStock: 28,
+    quantity: 1,
   },
   {
     id: "18",
@@ -170,6 +206,8 @@ export const PRODUCTS: Product[] = [
     price: 260,
     gender: "female",
     img: "products/green.svg",
+    availableStock: 17,
+    quantity: 1,
   },
   {
     id: "19",
@@ -179,6 +217,8 @@ export const PRODUCTS: Product[] = [
     price: 520,
     gender: "male",
     img: "products/blue.svg",
+    availableStock: 10,
+    quantity: 1,
   },
   {
     id: "20",
@@ -188,6 +228,8 @@ export const PRODUCTS: Product[] = [
     price: 290,
     gender: "female",
     img: "products/red.svg",
+    availableStock: 26,
+    quantity: 1,
   },
   {
     id: "21",
@@ -197,6 +239,8 @@ export const PRODUCTS: Product[] = [
     price: 280,
     gender: "male",
     img: "products/green.svg",
+    availableStock: 30,
+    quantity: 1,
   },
   {
     id: "22",
@@ -206,6 +250,8 @@ export const PRODUCTS: Product[] = [
     price: 370,
     gender: "female",
     img: "products/blue.svg",
+    availableStock: 12,
+    quantity: 1,
   },
   {
     id: "23",
@@ -215,6 +261,8 @@ export const PRODUCTS: Product[] = [
     price: 250,
     gender: "male",
     img: "products/red.svg",
+    availableStock: 19,
+    quantity: 1,
   },
   {
     id: "24",
@@ -224,6 +272,8 @@ export const PRODUCTS: Product[] = [
     price: 290,
     gender: "female",
     img: "products/green.svg",
+    availableStock: 85,
+    quantity: 1,
   },
   {
     id: "25",
@@ -233,6 +283,8 @@ export const PRODUCTS: Product[] = [
     price: 450,
     gender: "male",
     img: "products/blue.svg",
+    availableStock: 15,
+    quantity: 1,
   },
   {
     id: "26",
@@ -242,6 +294,8 @@ export const PRODUCTS: Product[] = [
     price: 230,
     gender: "female",
     img: "products/red.svg",
+    availableStock: 27,
+    quantity: 1,
   },
   {
     id: "27",
@@ -251,6 +305,8 @@ export const PRODUCTS: Product[] = [
     price: 300,
     gender: "male",
     img: "products/green.svg",
+    availableStock: 19,
+    quantity: 1,
   },
   {
     id: "28",
@@ -260,6 +316,8 @@ export const PRODUCTS: Product[] = [
     price: 420,
     gender: "female",
     img: "products/blue.svg",
+    availableStock: 42,
+    quantity: 1,
   },
   {
     id: "29",
@@ -269,6 +327,8 @@ export const PRODUCTS: Product[] = [
     price: 270,
     gender: "male",
     img: "products/red.svg",
+    availableStock: 23,
+    quantity: 1,
   },
   {
     id: "30",
@@ -278,5 +338,7 @@ export const PRODUCTS: Product[] = [
     price: 310,
     gender: "female",
     img: "products/green.svg",
+    availableStock: 40,
+    quantity: 1,
   },
 ];

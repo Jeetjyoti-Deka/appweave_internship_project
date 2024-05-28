@@ -27,9 +27,12 @@ export const counterSlice = createSlice({
         state.cart.push(action.payload);
       }
     },
+    removeItem: (state, action: PayloadAction<Product>) => {
+      state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+    },
   },
 });
 
-export const { addItem } = counterSlice.actions;
+export const { addItem, removeItem } = counterSlice.actions;
 
 export default counterSlice.reducer;
