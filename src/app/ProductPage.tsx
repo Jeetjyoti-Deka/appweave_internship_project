@@ -8,11 +8,27 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { capitalize, formatPrice, getPaginatedProducts } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, Loader2, Plus, Search } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  Plus,
+  Search,
+  SlidersHorizontal,
+} from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { addItem } from "@/redux/slice/cartSlice";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
@@ -96,11 +112,17 @@ const ProductPage = () => {
 
   return (
     <div className="mt-10 px-6">
-      <div className="mb-6 flex items-center justify-center">
-        <SearchBar applySearch={applySearch} />
+      <div className="mb-6 flex items-center justify-center relative">
+        <div className="w-full sm:w-[60%] min-[933px]:w-[37%] min-[933px]:-mr-64 flex items-center gap-x-2">
+          <SearchBar applySearch={applySearch} />
+          <MobileFilters
+            applyFilters={applyFilters}
+            setProducts={setProducts}
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-[20%,80%] gap-x-6">
-        <div>
+      <div className="min-[933px]:grid grid-cols-[28%,72%] xl:grid-cols-[24%,76%] min-[1350px]:grid-cols-[20%,80%] gap-x-6">
+        <div className="hidden min-[933px]:block">
           <Filters applyFilters={applyFilters} setProducts={setProducts} />
         </div>
         <div>
@@ -128,6 +150,32 @@ const ProductPage = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const MobileFilters = ({
+  applyFilters,
+  setProducts,
+}: {
+  applyFilters: (
+    color: string,
+    type: string,
+    gender: string,
+    price: string
+  ) => void;
+  setProducts: Dispatch<SetStateAction<Product[]>>;
+}) => {
+  return (
+    <Dialog>
+      <DialogTrigger asChild className="block min-[933px]:hidden">
+        <Button variant="outline">
+          <SlidersHorizontal className="w-4 h-4" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <Filters applyFilters={applyFilters} setProducts={setProducts} />
+      </DialogContent>
+    </Dialog>
   );
 };
 
@@ -230,7 +278,7 @@ const Filters = ({
           </RadioGroup>
         </div>
 
-        <div className="flex items-center justify-between mt-4">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-y-3 gap-x-3 mt-4">
           <Button onClick={() => applyFilters(color, type, gender, price)}>
             Apply Filters
           </Button>
@@ -279,7 +327,7 @@ const ProductSection = ({ products }: { products: Product[] }) => {
   }
 
   return (
-    <div className="grid grid-cols-3 px-8 gap-y-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 min-[933px]:px-8 gap-y-4">
       {products.map((product, index) => (
         <ProductCard key={index} product={product} />
       ))}
@@ -290,7 +338,7 @@ const ProductSection = ({ products }: { products: Product[] }) => {
 const ProductCard = ({ product }: { product: Product }) => {
   const dispatch = useAppDispatch();
   return (
-    <Card className="w-[320px] place-self-center">
+    <Card className="w-[280px] min-[1350px]:w-[320px] place-self-center">
       <CardHeader className="relative p-2 pb-6">
         <div className="w-full h-44 p-4 rounded-lg bg-gray-300 relative">
           <CardTitle className="absolute top-2 left-2 z-20 bg-white/30 p-2 rounded-md">
@@ -323,7 +371,8 @@ const SearchBar = ({
   const [searchText, setSearchText] = useState("");
 
   return (
-    <div className="w-[37%] -mr-64 flex items-center gap-x-2">
+    // <div className="w-full sm:w-[60%] min-[933px]:w-[37%] min-[933px]:-mr-64 flex items-center gap-x-2">
+    <>
       <Input
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
@@ -339,7 +388,8 @@ const SearchBar = ({
       >
         <Search className="w-4 h-4" />
       </Button>
-    </div>
+    </>
+    // </div>
   );
 };
 
