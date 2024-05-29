@@ -20,7 +20,7 @@ import {
   X,
 } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -38,6 +38,10 @@ const ProductPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
+  const { color, gender, price, type } = useAppSelector(
+    (state) => state.filter
+  );
+
   useEffect(() => {
     setPage(1);
   }, [products]);
@@ -50,40 +54,42 @@ const ProductPage = () => {
 
   const dispatch = useAppDispatch();
 
-  const applyFilters = (
-    color: string,
-    type: string,
-    gender: string,
-    price: string
-  ) => {
-    let products = searchedProducts.length >= 1 ? searchedProducts : PRODUCTS;
+  const applyFilters = useCallback(
+    (color: string, type: string, gender: string, price: string) => {
+      let products = searchedProducts.length >= 1 ? searchedProducts : PRODUCTS;
 
-    if (color !== "") {
-      products = products.filter((product) => product.color === color);
-    }
-
-    if (type !== "") {
-      products = products.filter((product) => product.type === type);
-    }
-
-    if (gender !== "") {
-      products = products.filter((product) => product.gender === gender);
-    }
-
-    if (price !== "") {
-      if (price === "0-250") {
-        products = products.filter((product) => product.price <= 250);
-      } else if (price === "251-450") {
-        products = products.filter(
-          (product) => product.price > 250 && product.price <= 450
-        );
-      } else if (price === "above") {
-        products = products.filter((product) => product.price > 450);
+      if (color !== "") {
+        products = products.filter((product) => product.color === color);
       }
-    }
 
-    setProducts(products);
-  };
+      if (type !== "") {
+        products = products.filter((product) => product.type === type);
+      }
+
+      if (gender !== "") {
+        products = products.filter((product) => product.gender === gender);
+      }
+
+      if (price !== "") {
+        if (price === "0-250") {
+          products = products.filter((product) => product.price <= 250);
+        } else if (price === "251-450") {
+          products = products.filter(
+            (product) => product.price > 250 && product.price <= 450
+          );
+        } else if (price === "above") {
+          products = products.filter((product) => product.price > 450);
+        }
+      }
+
+      setProducts(products);
+    },
+    [searchedProducts]
+  );
+
+  useEffect(() => {
+    applyFilters(color, type, gender, price);
+  }, [applyFilters, color, type, gender, price]);
 
   const applySearch = (searchText: string) => {
     if (searchText === "") {
@@ -135,15 +141,12 @@ const ProductPage = () => {
       <div className="mb-6 flex items-center justify-center relative">
         <div className="w-full sm:w-[60%] min-[933px]:w-[37%] min-[933px]:-mr-64 flex items-center gap-x-2">
           <SearchBar applySearch={applySearch} clearSearch={clearSearch} />
-          <MobileFilters
-            applyFilters={applyFilters}
-            clearFilters={clearFilters}
-          />
+          <MobileFilters clearFilters={clearFilters} />
         </div>
       </div>
       <div className="min-[933px]:grid grid-cols-[28%,72%] xl:grid-cols-[24%,76%] min-[1350px]:grid-cols-[20%,80%] gap-x-6">
         <div className="hidden min-[933px]:block">
-          <Filters applyFilters={applyFilters} clearFilters={clearFilters} />
+          <Filters clearFilters={clearFilters} />
         </div>
         <div>
           <ProductSection products={paginatedProducts} />
@@ -175,18 +178,7 @@ const ProductPage = () => {
   );
 };
 
-const MobileFilters = ({
-  applyFilters,
-  clearFilters,
-}: {
-  applyFilters: (
-    color: string,
-    type: string,
-    gender: string,
-    price: string
-  ) => void;
-  clearFilters: () => void;
-}) => {
+const MobileFilters = ({ clearFilters }: { clearFilters: () => void }) => {
   return (
     <Dialog>
       <DialogTrigger asChild className="block min-[933px]:hidden">
@@ -195,24 +187,13 @@ const MobileFilters = ({
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <Filters applyFilters={applyFilters} clearFilters={clearFilters} />
+        <Filters clearFilters={clearFilters} />
       </DialogContent>
     </Dialog>
   );
 };
 
-const Filters = ({
-  applyFilters,
-  clearFilters,
-}: {
-  applyFilters: (
-    color: string,
-    type: string,
-    gender: string,
-    price: string
-  ) => void;
-  clearFilters: () => void;
-}) => {
+const Filters = ({ clearFilters }: { clearFilters: () => void }) => {
   const { color, gender, price, type } = useAppSelector(
     (state) => state.filter
   );
@@ -306,11 +287,12 @@ const Filters = ({
           </RadioGroup>
         </div>
 
-        <div className="flex flex-col lg:flex-row lg:items-center gap-y-3 gap-x-3 mt-4">
-          <Button onClick={() => applyFilters(color, type, gender, price)}>
-            Apply Filters
-          </Button>
-          <Button variant="outline" onClick={() => clearFilters()}>
+        <div className="mt-4">
+          <Button
+            variant="outline"
+            className="border-primary"
+            onClick={() => clearFilters()}
+          >
             Clear Filters
           </Button>
         </div>
