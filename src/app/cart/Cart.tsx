@@ -5,6 +5,10 @@ import { capitalize, cn, formatPrice } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
 
+import { staggerContainer, staggerItem } from "@/lib/animation";
+import { motion } from "framer-motion";
+
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -12,11 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { addItem, removeItem } from "@/redux/slice/cartSlice";
-import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
 const Cart = () => {
   const cart = useAppSelector((state) => state.cart.cart);
@@ -27,20 +31,42 @@ const Cart = () => {
   );
 
   return (
-    <div className="flex flex-col gap-y-3 max-w-screen-lg mx-auto px-3">
+    <motion.div
+      className="flex flex-col gap-y-3 max-w-screen-lg mx-auto px-3"
+      variants={staggerContainer}
+      initial="hidden"
+      animate="visible"
+    >
       <h2 className="text-center font-semibold text-2xl mt-6 mb-10">
         Shopping Cart
       </h2>
       {cart.map((item) => (
         <CartRow key={item.id} item={item} />
       ))}
-      <div className="grid grid-cols-2">
-        <h4 className="sm:justify-self-end font-semibold">Total Amount</h4>
-        <p className="sm:justify-self-center min-[320px]:-ml-9 sm:-ml-44">
-          {formatPrice(totalPrice)}
-        </p>
-      </div>
-    </div>
+      {cart.length >= 1 ? (
+        <div className="grid grid-cols-2 my-3 mb-6">
+          <h4 className="sm:justify-self-end font-semibold">Total Amount</h4>
+          <p className="sm:justify-self-center min-[320px]:-ml-9 sm:-ml-44">
+            {formatPrice(totalPrice)}
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center gap-y-2">
+          <h2 className="font-semibold text-lg text-center">
+            Your cart is currently <span className="text-red-500">empty!</span>
+          </h2>
+          <p className="text-gray-600 text-center">
+            <Link
+              href="/"
+              className="underline underline-offset-4 font-medium text-blue-400"
+            >
+              Browse our products
+            </Link>{" "}
+            and find something you love!
+          </p>
+        </div>
+      )}
+    </motion.div>
   );
 };
 
@@ -48,7 +74,10 @@ const CartRow = ({ item }: { item: Product }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="sm:grid grid-cols-[15%,85%] min-[798px]:grid-cols-[10%,90%] border-b border-gray-400 pb-2">
+    <motion.div
+      className="sm:grid grid-cols-[15%,85%] min-[798px]:grid-cols-[10%,90%] border-b border-gray-400 pb-2"
+      variants={staggerItem}
+    >
       <div className="flex items-center justify-start gap-x-3">
         <div className="relative w-20 h-20 bg-gray-200 rounded-sm">
           <Image
@@ -89,7 +118,7 @@ const CartRow = ({ item }: { item: Product }) => {
           </Button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

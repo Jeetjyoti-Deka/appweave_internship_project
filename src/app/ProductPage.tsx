@@ -31,6 +31,9 @@ import {
   setType,
 } from "@/redux/slice/filterSlice";
 
+import { motion } from "framer-motion";
+import { staggerContainer, staggerItem } from "@/lib/animation";
+
 const ProductPage = () => {
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
   const [searchedProducts, setSearchedProducts] = useState<Product[]>([]);
@@ -151,7 +154,7 @@ const ProductPage = () => {
         <div>
           <ProductSection products={paginatedProducts} />
           {paginatedProducts.length >= 1 && (
-            <div className="flex items-center justify-center gap-x-3 mt-6">
+            <div className="flex items-center justify-center gap-x-3 my-6">
               <Button
                 disabled={page === 1}
                 variant="ghost"
@@ -328,39 +331,49 @@ const ProductSection = ({ products }: { products: Product[] }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 min-[933px]:px-8 gap-y-4">
+    <motion.div
+      className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 min-[933px]:px-8 gap-y-4"
+      variants={staggerContainer}
+      initial="hidden"
+      animate="visible"
+    >
       {products.map((product, index) => (
         <ProductCard key={index} product={product} />
       ))}
-    </div>
+    </motion.div>
   );
 };
 
 const ProductCard = ({ product }: { product: Product }) => {
   const dispatch = useAppDispatch();
   return (
-    <Card className="w-[280px] min-[1350px]:w-[320px] place-self-center">
-      <CardHeader className="relative p-2 pb-6">
-        <div className="w-full h-44 p-4 rounded-lg bg-gray-300 relative">
-          <CardTitle className="absolute top-2 left-2 z-20 bg-white/30 p-2 rounded-md">
-            {capitalize(product.name)}
-          </CardTitle>
-          <Image
-            src={product.img}
-            alt={product.name}
-            fill
-            className="object-contain w-full z-0"
-          />
-        </div>
-      </CardHeader>
-      <CardContent className="flex items-center justify-between">
-        <p className="font-medium">{formatPrice(product.price)}</p>
-        <Button variant="outline" onClick={() => dispatch(addItem(product))}>
-          Add to cart
-          <Plus className="w-4 h-4 ml-1.5" />
-        </Button>
-      </CardContent>
-    </Card>
+    <motion.div
+      variants={staggerItem}
+      className="w-[280px] min-[1350px]:w-[320px] place-self-center"
+    >
+      <Card>
+        <CardHeader className="relative p-2 pb-6">
+          <div className="w-full h-44 p-4 rounded-lg bg-gray-300 relative">
+            <CardTitle className="absolute top-2 left-2 z-20 bg-white/30 p-2 rounded-md">
+              {capitalize(product.name)}
+            </CardTitle>
+            <Image
+              src={product.img}
+              alt={product.name}
+              fill
+              className="object-contain w-full z-0"
+            />
+          </div>
+        </CardHeader>
+        <CardContent className="flex items-center justify-between">
+          <p className="font-medium">{formatPrice(product.price)}</p>
+          <Button variant="outline" onClick={() => dispatch(addItem(product))}>
+            Add to cart
+            <Plus className="w-4 h-4 ml-1.5" />
+          </Button>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 };
 
