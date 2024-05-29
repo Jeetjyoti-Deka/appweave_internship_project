@@ -33,6 +33,7 @@ import {
 
 import { motion } from "framer-motion";
 import { staggerContainer, staggerItem } from "@/lib/animation";
+import { toast } from "@/components/ui/use-toast";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
@@ -121,8 +122,18 @@ const ProductPage = () => {
       });
     });
 
+    if (searchedProducts.length <= 1) {
+      toast({
+        title: "Oops! No Products Found",
+        description:
+          "We couldn't find any products matching your search criteria. Please try adjusting your filters or search for something different.",
+        variant: "destructive",
+      });
+    } else {
+      setProducts(searchedProducts);
+    }
+
     setSearchedProducts(searchedProducts);
-    setProducts(searchedProducts);
   };
 
   const clearSearch = () => {
