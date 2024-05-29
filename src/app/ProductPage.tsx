@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { capitalize, formatPrice, getPaginatedProducts } from "@/lib/utils";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addItem } from "@/redux/slice/cartSlice";
 import {
   ChevronLeft,
   ChevronRight,
@@ -15,23 +17,23 @@ import {
   Plus,
   Search,
   SlidersHorizontal,
+  X,
 } from "lucide-react";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useAppDispatch } from "@/redux/hooks";
-import { addItem } from "@/redux/slice/cartSlice";
+import { useEffect, useState } from "react";
 
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  removeFilters,
+  setColor,
+  setGender,
+  setPrice,
+  setType,
+} from "@/redux/slice/filterSlice";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
+  const [searchedProducts, setSearchedProducts] = useState<Product[]>([]);
   const [paginatedProducts, setPaginatedProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -46,13 +48,16 @@ const ProductPage = () => {
     setTotalPages(paginatedProducts.totalPages);
   }, [page, products]);
 
+  const dispatch = useAppDispatch();
+
   const applyFilters = (
     color: string,
     type: string,
     gender: string,
     price: string
   ) => {
-    let products = PRODUCTS;
+    let products = searchedProducts.length >= 1 ? searchedProducts : PRODUCTS;
+
     if (color !== "") {
       products = products.filter((product) => product.color === color);
     }
@@ -107,23 +112,38 @@ const ProductPage = () => {
       });
     });
 
+    setSearchedProducts(searchedProducts);
     setProducts(searchedProducts);
+  };
+
+  const clearSearch = () => {
+    setSearchedProducts([]);
+    setProducts(PRODUCTS);
+  };
+
+  const clearFilters = () => {
+    dispatch(removeFilters());
+    if (searchedProducts.length >= 1) {
+      setProducts(searchedProducts);
+    } else {
+      setProducts(PRODUCTS);
+    }
   };
 
   return (
     <div className="mt-10 px-6">
       <div className="mb-6 flex items-center justify-center relative">
         <div className="w-full sm:w-[60%] min-[933px]:w-[37%] min-[933px]:-mr-64 flex items-center gap-x-2">
-          <SearchBar applySearch={applySearch} />
+          <SearchBar applySearch={applySearch} clearSearch={clearSearch} />
           <MobileFilters
             applyFilters={applyFilters}
-            setProducts={setProducts}
+            clearFilters={clearFilters}
           />
         </div>
       </div>
       <div className="min-[933px]:grid grid-cols-[28%,72%] xl:grid-cols-[24%,76%] min-[1350px]:grid-cols-[20%,80%] gap-x-6">
         <div className="hidden min-[933px]:block">
-          <Filters applyFilters={applyFilters} setProducts={setProducts} />
+          <Filters applyFilters={applyFilters} clearFilters={clearFilters} />
         </div>
         <div>
           <ProductSection products={paginatedProducts} />
@@ -133,6 +153,7 @@ const ProductPage = () => {
                 disabled={page === 1}
                 variant="ghost"
                 onClick={() => setPage((prev) => prev - 1)}
+                className="select-none"
               >
                 <ChevronLeft className="w-4 h-4 mr-1.5" />
                 Previous
@@ -141,6 +162,7 @@ const ProductPage = () => {
                 disabled={page === totalPages}
                 variant="ghost"
                 onClick={() => setPage((prev) => prev + 1)}
+                className="select-none"
               >
                 Next
                 <ChevronRight className="w-4 h-4 ml-1.5" />
@@ -155,7 +177,7 @@ const ProductPage = () => {
 
 const MobileFilters = ({
   applyFilters,
-  setProducts,
+  clearFilters,
 }: {
   applyFilters: (
     color: string,
@@ -163,7 +185,7 @@ const MobileFilters = ({
     gender: string,
     price: string
   ) => void;
-  setProducts: Dispatch<SetStateAction<Product[]>>;
+  clearFilters: () => void;
 }) => {
   return (
     <Dialog>
@@ -173,7 +195,7 @@ const MobileFilters = ({
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <Filters applyFilters={applyFilters} setProducts={setProducts} />
+        <Filters applyFilters={applyFilters} clearFilters={clearFilters} />
       </DialogContent>
     </Dialog>
   );
@@ -181,7 +203,7 @@ const MobileFilters = ({
 
 const Filters = ({
   applyFilters,
-  setProducts,
+  clearFilters,
 }: {
   applyFilters: (
     color: string,
@@ -189,12 +211,12 @@ const Filters = ({
     gender: string,
     price: string
   ) => void;
-  setProducts: Dispatch<SetStateAction<Product[]>>;
+  clearFilters: () => void;
 }) => {
-  const [color, setColor] = useState<"red" | "green" | "blue" | "">("");
-  const [gender, setGender] = useState<"male" | "female" | "">("");
-  const [type, setType] = useState<"basic" | "hoodie" | "polo" | "">("");
-  const [price, setPrice] = useState<"0-250" | "251-450" | "above" | "">("");
+  const { color, gender, price, type } = useAppSelector(
+    (state) => state.filter
+  );
+  const dispatch = useAppDispatch();
 
   return (
     <div className="bg-white shadow-xl rounded-sm border border-zinc-200 p-5">
@@ -203,7 +225,9 @@ const Filters = ({
           <h3 className="font-semibold text-lg">Color</h3>
           <RadioGroup
             value={color}
-            onValueChange={(v: "red" | "green" | "blue") => setColor(v)}
+            onValueChange={(v: "red" | "green" | "blue") =>
+              dispatch(setColor(v))
+            }
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="red" id="red" />
@@ -224,7 +248,7 @@ const Filters = ({
           <h3 className="font-semibold text-lg">Gender</h3>
           <RadioGroup
             value={gender}
-            onValueChange={(v: "male" | "female") => setGender(v)}
+            onValueChange={(v: "male" | "female") => dispatch(setGender(v))}
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="male" id="male" />
@@ -241,7 +265,9 @@ const Filters = ({
           <h3 className="font-semibold text-lg">Price</h3>
           <RadioGroup
             value={price}
-            onValueChange={(v: "0-250" | "251-450" | "above") => setPrice(v)}
+            onValueChange={(v: "0-250" | "251-450" | "above") =>
+              dispatch(setPrice(v))
+            }
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="0-250" id="0-250" />
@@ -261,7 +287,9 @@ const Filters = ({
           <h3 className="font-semibold text-lg">Type</h3>
           <RadioGroup
             value={type}
-            onValueChange={(v: "basic" | "hoodie" | "polo") => setType(v)}
+            onValueChange={(v: "basic" | "hoodie" | "polo") =>
+              dispatch(setType(v))
+            }
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="polo" id="polo" />
@@ -282,16 +310,7 @@ const Filters = ({
           <Button onClick={() => applyFilters(color, type, gender, price)}>
             Apply Filters
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              setColor("");
-              setGender("");
-              setPrice("");
-              setType("");
-              setProducts(PRODUCTS);
-            }}
-          >
+          <Button variant="outline" onClick={() => clearFilters()}>
             Clear Filters
           </Button>
         </div>
@@ -365,31 +384,37 @@ const ProductCard = ({ product }: { product: Product }) => {
 
 const SearchBar = ({
   applySearch,
+  clearSearch,
 }: {
   applySearch: (searchText: string) => void;
+  clearSearch: () => void;
 }) => {
   const [searchText, setSearchText] = useState("");
 
   return (
-    // <div className="w-full sm:w-[60%] min-[933px]:w-[37%] min-[933px]:-mr-64 flex items-center gap-x-2">
     <>
-      <Input
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-        type="text"
-        placeholder="Search here..."
-        className="focus-visible:ring-0 focus-visible:ring-white focus-visible:ring-offset-0"
-      />
-      <Button
-        onClick={() => {
-          applySearch(searchText);
-          setSearchText("");
-        }}
-      >
+      <div className="relative w-full">
+        <Input
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          type="text"
+          placeholder="Search here..."
+          className="focus-visible:ring-0 focus-visible:ring-white focus-visible:ring-offset-0 pr-10"
+        />
+        <div
+          className="absolute top-3 right-3"
+          onClick={() => {
+            clearSearch();
+            setSearchText("");
+          }}
+        >
+          <X className="w-4 h-4" />
+        </div>
+      </div>
+      <Button onClick={() => applySearch(searchText)}>
         <Search className="w-4 h-4" />
       </Button>
     </>
-    // </div>
   );
 };
 
